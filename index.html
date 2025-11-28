@@ -3,9 +3,63 @@
 <head>
 <meta charset="UTF-8">
 <title>Santa Tracker - TimerCode</title>
-    <script src="https://hcaptcha.com/1/api.js" async defer></script>
+    <div id="hcaptcha" style="
+  max-width: 350px;
+  margin: 60px auto;
+  padding: 20px;
+  background: #fff;
+  border-radius: 15px;
+  box-shadow: 0 0 20px rgba(0,0,0,0.1);
+  text-align: center;
+">
 
-<div class="h-captcha" data-sitekey="2dd06b24-83cc-4a82-a1e6-69b8ceb2661c"></div>
+  <script src="https://hcaptcha.com/1/api.js" async defer></script>
+
+  <div id="captchaBox">
+    <div class="h-captcha" 
+         data-sitekey="2dd06b24-83cc-4a82-a1e6-69b8ceb2661c"
+         data-size="invisible"
+         data-callback="captchaPassed"
+         data-expired-callback="captchaExpired">
+    </div>
+  </div>
+
+  <button id="submitBtn" style="
+    margin-top: 20px;
+    background:#007bff;
+    color:#fff;
+    border:none;
+    padding:10px 20px;
+    border-radius:10px;
+    cursor:pointer;
+    font-size:16px;
+  ">
+    Submit
+  </button>
+
+  <p id="statusText" style="margin-top:15px;font-size:15px;color:#444;"></p>
+</div>
+
+<script>
+  // Cuando hCaptcha confirme que eres humano
+  function captchaPassed(token) {
+    document.getElementById("statusText").innerText = "✔️ Verificado correctamente";
+    setTimeout(() => {
+      document.getElementById("hcaptcha").style.display = "none";
+    }, 800);
+  }
+
+  // Si el token expira
+  function captchaExpired() {
+    document.getElementById("statusText").innerText = "❌ El captcha expiró, dale otra vez bro.";
+  }
+
+  // Forzar abrir el test de imágenes
+  document.getElementById("submitBtn").addEventListener("click", () => {
+    document.getElementById("statusText").innerText = "Abriendo verificación…";
+    hcaptcha.execute();
+  });
+</script>
 <script src="https://cesium.com/downloads/cesiumjs/releases/1.120/Build/Cesium/Cesium.js"></script>
 <link href="https://cesium.com/downloads/cesiumjs/releases/1.120/Build/Cesium/Widgets/widgets.css" rel="stylesheet">
 <style>
